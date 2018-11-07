@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">PhonePlayer</string>
+    <string name="app_title">手机助手</string>
+    <string name="setting">设置</string>
+    <string name="refresh">刷新</string>
+    <string name="message">消息</string>
+    <string name="phone_name">手机助手</string>
+    <string name="search">搜索</string>
+    <string name="open">关闭</string>
+    <string name="close">打开</string>
+
+    <string name="tab_recommend">推荐</string>
+    <string name="tab_category">分类</string>
+    <string name="tab_game">游戏</string>
+    <string name="tab_ranking">排行</string>
+    <string name="tab_home">首页</string>
+
+</resources>

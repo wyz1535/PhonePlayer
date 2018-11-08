@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(RecommendFragment.getInstance());
         fragments.add(RankingFragment.newInstance());
         fragments.add(GameFragment.newInstance());
-        fragments.add(CategoryFragment.newInstance());
+        fragments.add(CategoryFragment.newInstance("这是activity的数据"));
 
         tablayout.addTab(tablayout.newTab().setText(titles.get(0)),true);
         tablayout.addTab(tablayout.newTab().setText(titles.get(1)));

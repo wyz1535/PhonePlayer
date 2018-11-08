@@ -16,12 +16,14 @@ public class CategoryFragment extends Fragment {
 
 
     private static CategoryFragment categoryFragment;
+    private View view;
+    private final String TAG = "categoryFragment";
 
     public CategoryFragment() {
         // Required empty public constructor
     }
 
-    public static CategoryFragment newInstance() {
+    public static CategoryFragment newInstance(String msg) {
         if (categoryFragment == null) {
             synchronized (CategoryFragment.class) {
                 categoryFragment = new CategoryFragment();
@@ -34,8 +36,9 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_category, container, false);
+        view = inflater.inflate(R.layout.fragment_category, container, false);
+
+        return view;
     }
 
 }

@@ -7,29 +7,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.leyifu.phoneplayer.R;
 import com.leyifu.phoneplayer.util.ActivityCollections;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by hahaha on 2018/11/7 0007.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "BaseActivity";
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(setLayout());
 
         handleMaterialStatusBar();
 
         ActivityCollections.addActivity(this);
 
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+        unbinder = ButterKnife.bind(this);
+
+        init();
+
     }
+
+    public abstract int setLayout();
+
+    protected abstract void init();
 
     /**
      * 适配沉浸状态栏
@@ -63,5 +74,9 @@ public class BaseActivity extends AppCompatActivity {
         super.onDestroy();
 
         ActivityCollections.removeActivity(this);
+
+        if (unbinder != Unbinder.EMPTY){
+            unbinder.unbind();
+        }
     }
 }

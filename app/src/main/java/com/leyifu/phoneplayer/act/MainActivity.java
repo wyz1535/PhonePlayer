@@ -1,6 +1,5 @@
 package com.leyifu.phoneplayer.act;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
@@ -44,10 +42,12 @@ public class MainActivity extends BaseActivity {
     TabLayout tablayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+    public int setLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void init() {
 
         initNavigation();
 
@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
 
         View headerView = navigationView.getHeaderView(0);
 
-        headerView.setOnClickListener(navigationHeadListner);
+//        headerView.setOnClickListener(navigationHeadListner);
 
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
 
@@ -153,14 +153,6 @@ public class MainActivity extends BaseActivity {
             }
 
             return false;
-        }
-    };
-
-
-    View.OnClickListener navigationHeadListner = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ShowUtil.toast(MainActivity.this, "this a head");
         }
     };
 }

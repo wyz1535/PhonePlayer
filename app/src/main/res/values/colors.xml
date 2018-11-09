@@ -5,6 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
 
+    <color name="splash_color">#1E428A</color>
+
+    <color name="guide">#3EB71F</color>
+
     <color name="red_50">#fde0dc</color>
     <color name="red_100">#f9bdbb</color>
     <color name="red_200">#f69988</color>

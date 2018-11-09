@@ -17,5 +17,6 @@
 
     <string name="net_error">网络连接失败,请稍后重连...</string>
     <string name="app_install">安 装</string>
+    <string name="guide_text">立即开启</string>
 
 </resources>

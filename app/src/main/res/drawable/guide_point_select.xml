@@ -5,5 +5,4 @@
 
     <item android:drawable="@drawable/guide_point_nor_shape" android:state_enabled="true" />
 
-
 </selector>

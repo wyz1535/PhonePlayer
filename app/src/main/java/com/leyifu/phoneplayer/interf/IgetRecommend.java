@@ -10,6 +10,10 @@ public interface IgetRecommend {
 
     void getRecommendSuccess(RecommendBean recommendBean);
 
-    void getRecommendFailed();
+    void getRecommendFailed(Throwable e);
+
+    void getRecommendStart();
+
+    void getRecommendCompleted();
 
 }

@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.leyifu.phoneplayer.R;
 import com.leyifu.phoneplayer.adapter.RecommendAdapter;
@@ -17,10 +20,10 @@ import com.leyifu.phoneplayer.bean.RecommendBean;
 import com.leyifu.phoneplayer.interf.HttpApi;
 import com.leyifu.phoneplayer.interf.IgetRecommend;
 import com.leyifu.phoneplayer.presenter.Persenter;
-import com.leyifu.phoneplayer.util.ShowUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -34,6 +37,12 @@ public class RecommendFragment extends Fragment implements IgetRecommend {
     @BindView(R.id.recycler_view_recommend)
     RecyclerView recyclerViewRecommend;
     Unbinder unbinder;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.btn_net_erro)
+    Button btnNetErro;
+    @BindView(R.id.ll_net_error)
+    LinearLayout llNetError;
 
     private int pager = 0;
 
@@ -73,7 +82,9 @@ public class RecommendFragment extends Fragment implements IgetRecommend {
         //布局管理器
         recyclerViewRecommend.setLayoutManager(new LinearLayoutManager(getActivity()));
         //分割线
-        recyclerViewRecommend.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+        recyclerViewRecommend.addItemDecoration(divider);
         //动画
         recyclerViewRecommend.setItemAnimator(new DefaultItemAnimator());
 
@@ -84,21 +95,45 @@ public class RecommendFragment extends Fragment implements IgetRecommend {
     @Override
     public void getRecommendSuccess(RecommendBean recommendBean) {
 
+        progressBar.setVisibility(View.VISIBLE);
+        llNetError.setVisibility(View.INVISIBLE);
+
         if (recommendBean != null) {
 
             RecommendAdapter recommendAdapter = new RecommendAdapter(getActivity(), recommendBean.getDatas());
+
+
             recyclerViewRecommend.setAdapter(recommendAdapter);
         }
     }
 
     @Override
-    public void getRecommendFailed() {
-        ShowUtil.toast(getActivity(), getResources().getString(R.string.net_error));
+    public void getRecommendFailed(Throwable e) {
+
+        llNetError.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void getRecommendStart() {
+        progressBar.setVisibility(View.VISIBLE);
+        llNetError.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void getRecommendCompleted() {
+        progressBar.setVisibility(View.INVISIBLE);
+        llNetError.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.btn_net_erro)
+    public void onViewClicked() {
+        init();
     }
 }

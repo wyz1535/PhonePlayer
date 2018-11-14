@@ -13,4 +13,6 @@ public class Constants {
     public static final String GUIDE_SHARE = "guide_share";
 
     public static final String IS_FIRST_APP = "is_first_app";
+
+    public static final int PERMISSION_CODE = 101;
 }

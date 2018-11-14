@@ -1,15 +1,25 @@
 package com.leyifu.phoneplayer.act;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.leyifu.phoneplayer.R;
+import com.leyifu.phoneplayer.constant.Constants;
 import com.leyifu.phoneplayer.util.ActivityCollections;
+import com.leyifu.phoneplayer.util.DeviceLogUtils;
+import com.leyifu.phoneplayer.util.ShowUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -29,6 +39,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(setLayout());
 
         handleMaterialStatusBar();
+
+        initPermission();
+
+        //显示用户手机设备
+        DeviceLogUtils.initDevice(this);
 
         ActivityCollections.addActivity(this);
 
@@ -77,6 +92,45 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (unbinder != Unbinder.EMPTY){
             unbinder.unbind();
+        }
+    }
+
+
+    String[] permissions = new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_WIFI_STATE};
+
+    //未授权的权限
+    List<String> mPermissionsList = new ArrayList<>();
+
+    private void initPermission() {
+
+        mPermissionsList.clear();
+
+        for (String permission : permissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                mPermissionsList.add(permission);
+            }
+        }
+
+        if (mPermissionsList.size() > 0) {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_CODE);
+        } else {
+            // TODO: 2018/11/13 0013 权限通过
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == Constants.PERMISSION_CODE) {
+
+            for (int i = 0; i < grantResults.length; i++) {
+
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    ShowUtil.toast(this, "没有授权，请授权后再只用该功能");
+                }
+            }
+
         }
     }
 }

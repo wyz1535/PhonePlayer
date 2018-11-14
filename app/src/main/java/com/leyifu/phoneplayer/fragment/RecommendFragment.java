@@ -84,6 +84,7 @@ public class RecommendFragment extends Fragment implements IgetRecommend {
         //分割线
         DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         divider.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        RecyclerViewDivider divider = new RecyclerViewDivider(30, Color.RED);
         recyclerViewRecommend.addItemDecoration(divider);
         //动画
         recyclerViewRecommend.setItemAnimator(new DefaultItemAnimator());

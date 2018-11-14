@@ -28,6 +28,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = "MainActivity";
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
     @BindView(R.id.drawer_layout)
@@ -49,6 +50,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
 
+
+
+
+
         initNavigation();
 
         initToolBar();
@@ -56,10 +61,12 @@ public class MainActivity extends BaseActivity {
         initTablayout();
     }
 
+
+
     private void initTablayout() {
 
         List<String> titles = new ArrayList<>();
-        List<Fragment> fragments= new ArrayList<>();
+        List<Fragment> fragments = new ArrayList<>();
 
         titles.add(getResources().getString(R.string.tab_recommend));
         titles.add(getResources().getString(R.string.tab_ranking));
@@ -67,20 +74,19 @@ public class MainActivity extends BaseActivity {
         titles.add(getResources().getString(R.string.tab_category));
 
 
-
         fragments.add(RecommendFragment.getInstance());
         fragments.add(RankingFragment.newInstance());
         fragments.add(GameFragment.newInstance());
         fragments.add(CategoryFragment.newInstance("这是activity的数据"));
 
-        tablayout.addTab(tablayout.newTab().setText(titles.get(0)),true);
+        tablayout.addTab(tablayout.newTab().setText(titles.get(0)), true);
         tablayout.addTab(tablayout.newTab().setText(titles.get(1)));
         tablayout.addTab(tablayout.newTab().setText(titles.get(2)));
         tablayout.addTab(tablayout.newTab().setText(titles.get(3)));
         tablayout.setupWithViewPager(mainViewPager);
         mainViewPager.setOffscreenPageLimit(4);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments ,titles);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
 
 
         mainViewPager.setAdapter(viewPagerAdapter);

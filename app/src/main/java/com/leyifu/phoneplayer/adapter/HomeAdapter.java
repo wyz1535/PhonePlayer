@@ -111,17 +111,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             HotAppViewHolder viewHolder = (HotAppViewHolder) holder;
 
             List<RecommendAppsBean> recommendApps = mDataBean.getRecommendApps();
-            viewHolder.text_title.setText(recommendApps.get(position).getDisplayName());
-            viewHolder.text_size.setText(recommendApps.get(position).getApkSize() / 1024 / 1024 + " MB");
-            Glide.with(mContext).load(Constants.BASE_IMG_URL + recommendApps.get(position).getIcon()).into(viewHolder.img_icon);
+            viewHolder.text_title.setText(recommendApps.get(position - 2).getDisplayName());
+            viewHolder.text_size.setText(recommendApps.get(position - 2).getApkSize() / 1024 / 1024 + " MB");
+            Glide.with(mContext).load(Constants.BASE_IMG_URL + recommendApps.get(position - 2).getIcon()).into(viewHolder.img_icon);
         }
     }
 
 
     @Override
     public int getItemCount() {
-        Log.e("getItemCount", "getItemCount: "+mDataBean.getRecommendApps().size());
-        return mDataBean.getRecommendApps().size() ;
+        return mDataBean.getRecommendApps().size() + 2;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.leyifu.phoneplayer.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +30,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     public static final int TYPE_BANNER = 0;
     public static final int TYPE_HOT = 1;
-    public static final int TYPE_APP = 2;
-    public static final int TYPE_GAME = 3;
+    public static final int TYPE_title_app = 2;
+    public static final int TYPE_APP = 3;
+    public static final int TYPE_GAME = 4;
 
     private Context mContext;
     private RecommendDataBean mDataBean;
@@ -54,9 +54,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         } else if (position == 1) {
             return TYPE_HOT;
         }
-//        else if (position == 2) {
-//            return TYPE_APP;
-//        }
+        else if (position == 2) {
+            return TYPE_title_app;
+        }
 //        else if (position == 3) {
 //            return TYPE_GAME;
 //        }
@@ -73,9 +73,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         } else if (viewType == TYPE_HOT) {
             View view = inflater.inflate(R.layout.template_nav_icon, parent, false);
             return new NavIconViewHolder(view);
-        } else if (viewType == TYPE_APP) {
-            View view = inflater.inflate(R.layout.template_recomend_app, parent, false);
-            return new HotAppViewHolder(view);
+        } else if (viewType == TYPE_title_app) {
+            View view = inflater.inflate(R.layout.home_title_apps, parent, false);
+            return new TitleAppAndGameViewHolder(view);
+        } else {
+            if (viewType == TYPE_APP) {
+                View view = inflater.inflate(R.layout.template_recomend_app, parent, false);
+                return new HotAppViewHolder(view);
+            }
         }
 
         return null;
@@ -107,20 +112,24 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             navIconViewHolder.layout_hot_game.setOnClickListener(this);
             navIconViewHolder.layout_hot_subject.setOnClickListener(this);
 
+        } else if (position == 2) {
+            TitleAppAndGameViewHolder viewHolder = (TitleAppAndGameViewHolder) holder;
+
+            viewHolder.tx_app_title.setText(mContext.getResources().getString(R.string.hot_app));
         } else {
             HotAppViewHolder viewHolder = (HotAppViewHolder) holder;
 
             List<RecommendAppsBean> recommendApps = mDataBean.getRecommendApps();
-            viewHolder.text_title.setText(recommendApps.get(position - 2).getDisplayName());
-            viewHolder.text_size.setText(recommendApps.get(position - 2).getApkSize() / 1024 / 1024 + " MB");
-            Glide.with(mContext).load(Constants.BASE_IMG_URL + recommendApps.get(position - 2).getIcon()).into(viewHolder.img_icon);
+            viewHolder.text_title.setText(recommendApps.get(position - 3).getDisplayName());
+            viewHolder.text_size.setText(recommendApps.get(position - 3).getApkSize() / 1024 / 1024 + " MB");
+            Glide.with(mContext).load(Constants.BASE_IMG_URL + recommendApps.get(position - 3).getIcon()).into(viewHolder.img_icon);
         }
     }
 
 
     @Override
     public int getItemCount() {
-        return mDataBean.getRecommendApps().size() + 2;
+        return mDataBean.getRecommendApps().size() + 3;
     }
 
     @Override
@@ -182,5 +191,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             btn_dl = ((Button) itemView.findViewById(R.id.btn_dl));
         }
     }
+
+    class TitleAppAndGameViewHolder extends RecyclerView.ViewHolder {
+
+        private final TextView tx_app_title;
+
+        public TitleAppAndGameViewHolder(View itemView) {
+            super(itemView);
+            tx_app_title = ((TextView) itemView.findViewById(R.id.tx_app_title));
+        }
+    }
+
 
 }

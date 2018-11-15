@@ -15,6 +15,7 @@ import com.leyifu.phoneplayer.R;
 import com.leyifu.phoneplayer.bean.recommendhomebean.BannersBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendAppsBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendDataBean;
+import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendGamesBean;
 import com.leyifu.phoneplayer.constant.Constants;
 import com.leyifu.phoneplayer.util.ShowUtil;
 import com.leyifu.phoneplayer.widget.BannerView;
@@ -30,17 +31,30 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     public static final int TYPE_BANNER = 0;
     public static final int TYPE_HOT = 1;
-    public static final int TYPE_title_app = 2;
-    public static final int TYPE_APP = 3;
-    public static final int TYPE_GAME = 4;
+    public static final int TYPE_TITLE_APP = 2;
+    public static final int TYPE_TITLE_GAMES = 3;
+    public static final int TYPE_APP = 4;
+    //    public int TYPE_APP;
+    public static final int TYPE_GAME = 5;
 
     private Context mContext;
     private RecommendDataBean mDataBean;
     private final LayoutInflater inflater;
+    private final List<RecommendAppsBean> recommendApps;
+    private final List<RecommendGamesBean> recommendGames;
+    private final int gameSize;
+    private final int appSize;
 
     public HomeAdapter(Context context, RecommendDataBean dataBean) {
         this.mContext = context;
         this.mDataBean = dataBean;
+
+        recommendApps = mDataBean.getRecommendApps();
+        appSize = recommendApps.size();
+
+
+        recommendGames = mDataBean.getRecommendGames();
+        gameSize = recommendGames.size();
 
         inflater = LayoutInflater.from(mContext);
 
@@ -53,15 +67,18 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return TYPE_BANNER;
         } else if (position == 1) {
             return TYPE_HOT;
-        }
-        else if (position == 2) {
-            return TYPE_title_app;
+        } else if (position == 2) {
+            return TYPE_TITLE_APP;
+        } else if (position > 2 && position < appSize + 3) {
+            return TYPE_APP;
+        } else if (position == appSize + 3) {
+            return TYPE_TITLE_GAMES;
         }
 //        else if (position == 3) {
 //            return TYPE_GAME;
 //        }
 
-        return TYPE_APP;
+            return TYPE_APP;
     }
 
     @Override
@@ -73,14 +90,15 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         } else if (viewType == TYPE_HOT) {
             View view = inflater.inflate(R.layout.template_nav_icon, parent, false);
             return new NavIconViewHolder(view);
-        } else if (viewType == TYPE_title_app) {
+        } else if (viewType == TYPE_TITLE_APP) {
             View view = inflater.inflate(R.layout.home_title_apps, parent, false);
             return new TitleAppAndGameViewHolder(view);
-        } else {
-            if (viewType == TYPE_APP) {
-                View view = inflater.inflate(R.layout.template_recomend_app, parent, false);
-                return new HotAppViewHolder(view);
-            }
+        } else if (viewType == TYPE_APP) {
+            View view = inflater.inflate(R.layout.template_recomend_app, parent, false);
+            return new HotAppViewHolder(view);
+        } else if (viewType == TYPE_TITLE_GAMES) {
+            View view = inflater.inflate(R.layout.home_title_apps, parent, false);
+            return new TitleAppAndGameViewHolder(view);
         }
 
         return null;
@@ -116,20 +134,24 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             TitleAppAndGameViewHolder viewHolder = (TitleAppAndGameViewHolder) holder;
 
             viewHolder.tx_app_title.setText(mContext.getResources().getString(R.string.hot_app));
-        } else {
+        } else if (position > 3 && position < appSize + 3){
             HotAppViewHolder viewHolder = (HotAppViewHolder) holder;
 
-            List<RecommendAppsBean> recommendApps = mDataBean.getRecommendApps();
+
             viewHolder.text_title.setText(recommendApps.get(position - 3).getDisplayName());
             viewHolder.text_size.setText(recommendApps.get(position - 3).getApkSize() / 1024 / 1024 + " MB");
             Glide.with(mContext).load(Constants.BASE_IMG_URL + recommendApps.get(position - 3).getIcon()).into(viewHolder.img_icon);
+        } else if (position == appSize + 3) {
+            TitleAppAndGameViewHolder viewHolder = (TitleAppAndGameViewHolder) holder;
+
+            viewHolder.tx_app_title.setText(mContext.getResources().getString(R.string.hot_game));
         }
     }
 
 
     @Override
     public int getItemCount() {
-        return mDataBean.getRecommendApps().size() + 3;
+        return mDataBean.getRecommendApps().size() + 4;
     }
 
     @Override

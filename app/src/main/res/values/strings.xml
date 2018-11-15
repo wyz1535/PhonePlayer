@@ -21,4 +21,7 @@
     <string name="net_error_no_me">是网络先动的手不怪我</string>
     <string name="again">重 试</string>
 
+    <string name="hot_app">热门应用</string>
+    <string name="hot_game">热门游戏</string>
+    <string name="hot_top">热门主题</string>
 </resources>

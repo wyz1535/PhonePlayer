@@ -61,8 +61,8 @@ public class DeviceLogUtils {
 //        String gsfid = DeviceUtils.getGSFID(ctx);
 //        Log.d(TAG, "gsfid: " + gsfid);
 
-        String bluetoothMAC = DeviceUtils.getBluetoothMAC(ctx);
-        Log.d(TAG, "bluetoothMAC: " + bluetoothMAC);
+//        String bluetoothMAC = DeviceUtils.getBluetoothMAC(ctx);
+//        Log.d(TAG, "bluetoothMAC: " + bluetoothMAC);
 
         String psuedoUniqueID = DeviceUtils.getPsuedoUniqueID();
         Log.d(TAG, "psuedoUniqueID: " + psuedoUniqueID);

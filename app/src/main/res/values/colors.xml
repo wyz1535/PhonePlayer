@@ -9,6 +9,10 @@
 
     <color name="guide">#3EB71F</color>
 
+    <color name="md_white_1000">#FFFFFF</color>
+
+    <color name="md_black_1000">#000000</color>
+
     <color name="red_50">#fde0dc</color>
     <color name="red_100">#f9bdbb</color>
     <color name="red_200">#f69988</color>

@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.leyifu.phoneplayer.R;
-import com.leyifu.phoneplayer.adapter.RecommendAdapter;
-import com.leyifu.phoneplayer.bean.RecommendBean;
+import com.leyifu.phoneplayer.adapter.HomeAdapter;
+import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendDataBean;
+import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
 import com.leyifu.phoneplayer.interf.HttpApi;
 import com.leyifu.phoneplayer.interf.IgetRecommend;
 import com.leyifu.phoneplayer.presenter.Persenter;
@@ -89,27 +91,39 @@ public class RecommendFragment extends Fragment implements IgetRecommend {
         //动画
         recyclerViewRecommend.setItemAnimator(new DefaultItemAnimator());
 
-        Persenter.getRecommend(this, HttpApi.class, "{'page':" + pager + "}");
+//        Persenter.getRecommend(this, HttpApi.class, "{'page':" + pager + "}");
 
+        Persenter.getRecommendHome(this, HttpApi.class, "{'page':" + pager + "}");
     }
 
+    @OnClick(R.id.btn_net_erro)
+    public void onViewClicked() {
+        init();
+    }
+
+
     @Override
-    public void getRecommendSuccess(RecommendBean recommendBean) {
+    public void getRecommendSuccess(RecommendHomeBean recommendHomeBean) {
 
         progressBar.setVisibility(View.VISIBLE);
         llNetError.setVisibility(View.INVISIBLE);
 
-        if (recommendBean != null) {
+        if (recommendHomeBean != null) {
 
-            RecommendAdapter recommendAdapter = new RecommendAdapter(getActivity(), recommendBean.getDatas());
+//            RecommendAdapter recommendAdapter = new RecommendAdapter(getActivity(), recommendBean.getDatas());
 
+            RecommendDataBean dataBean = recommendHomeBean.getData();
 
-            recyclerViewRecommend.setAdapter(recommendAdapter);
+            HomeAdapter homeAdapter = new HomeAdapter(getActivity(), dataBean);
+
+            recyclerViewRecommend.setAdapter(homeAdapter);
         }
     }
 
     @Override
     public void getRecommendFailed(Throwable e) {
+
+        Log.e(TAG, "getRecommendFailed: " + e);
 
         llNetError.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
@@ -133,8 +147,5 @@ public class RecommendFragment extends Fragment implements IgetRecommend {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.btn_net_erro)
-    public void onViewClicked() {
-        init();
-    }
+
 }

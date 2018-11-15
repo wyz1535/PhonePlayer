@@ -1,9 +1,12 @@
 package com.leyifu.phoneplayer.util;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.leyifu.phoneplayer.act.MyApplication;
+import com.leyifu.phoneplayer.constant.Constants;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,9 +33,15 @@ public class CommonParemsInterceptor implements Interceptor {
 
     public static final String TAG = "CommonParemsInterceptor";
     Map<String, Object> commonParams = new HashMap<>();
+    private Context mContext;
+
+    public CommonParemsInterceptor() {
+    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+
+        mContext = MyApplication.getContext();
 
         Gson gson = new Gson();
 
@@ -40,10 +49,21 @@ public class CommonParemsInterceptor implements Interceptor {
 
         String method = request.method();
 
-        commonParams.put("imei", "451367413131131421");
-        commonParams.put("sdk", "26");
+        String imei = DeviceUtils.getIMEI(mContext);
 
-        if (method.equals("GET")) {
+        if(imei !=null && imei.startsWith("000000")){
+            imei ="5284047f4ffb4e04824a2fd1d1f0cd62";
+        }
+
+        commonParams.put(Constants.IMEI, imei);
+        commonParams.put(Constants.MODEL,DeviceUtils.getModel());
+        commonParams.put(Constants.LANGUAGE,DeviceUtils.getLanguage());
+        commonParams.put(Constants.os,DeviceUtils.getBuildVersionIncremental());
+        commonParams.put(Constants.RESOLUTION, DensityUtil.getScreenW(mContext)+"*" + DensityUtil.getScreenH(mContext));
+        commonParams.put(Constants.SDK,DeviceUtils.getBuildVersionSDK()+"");
+        commonParams.put(Constants.DENSITY_SCALE_FACTOR, mContext.getResources().getDisplayMetrics().density+"");
+
+        if ("GET".equals(method)) {
 
             HttpUrl httpUrl = request.url();  //原始url
 
@@ -83,7 +103,7 @@ public class CommonParemsInterceptor implements Interceptor {
             request = request.newBuilder().url(url).build();
 
 
-        } else if (method.equals("POST")) {
+        } else if ("POST".equals(method)) {
 
             RequestBody body = request.body();
 

@@ -2,6 +2,7 @@ package com.leyifu.phoneplayer.interf;
 
 
 import com.leyifu.phoneplayer.bean.RecommendBean;
+import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -14,11 +15,16 @@ import rx.Observable;
 public interface HttpApi {
 
     /**
-     *   推荐
+     * 推荐
+     *
      * @param pager
      * @return
      */
     @GET("featured")
     Observable<RecommendBean> getRecommendInter(@Query("p") String pager);
 
+    @GET("index")
+    Observable<RecommendHomeBean> getRecommendHome(@Query("p") String pager);
+
 }
+

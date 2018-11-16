@@ -63,7 +63,8 @@ public class BannerView extends LinearLayout implements ViewPager.OnPageChangeLi
         this.titles = titles;
         imageViews = new ArrayList<>();
 
-        ll_point.removeView(child);
+//        ll_point.removeView(child);
+        ll_point.removeAllViews();
         for (int i = 0; i < imgUrl.size() + 2; i++) {
             ImageView imageView = new ImageView(getContext());
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -128,7 +129,7 @@ public class BannerView extends LinearLayout implements ViewPager.OnPageChangeLi
             @Override
             public void run() {
                 if (isScroll) {
-                    Log.e(TAG, "run: 我正在自动滚动");
+//                    Log.e(TAG, "run: 我正在自动滚动");
                     view_pager.setCurrentItem(view_pager.getCurrentItem() + 1);
 
                     //自动播放后面的图片
@@ -149,14 +150,13 @@ public class BannerView extends LinearLayout implements ViewPager.OnPageChangeLi
     //页面滚动的时候
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.e(TAG, "onPageScrolled: 1111");
     }
 
     //页面被选择的时候
     @Override
     public void onPageSelected(int position) {
         this.modifyPosition = position;
-        Log.e(TAG, "onPageSelected:22222  " + position + "modifyPosition" + modifyPosition);
+//        Log.e(TAG, "onPageSelected:22222  " + position + "modifyPosition" + modifyPosition);
         this.position = position;
         if (position == 0) {
             modifyPosition = imageViews.size() - 2;
@@ -179,7 +179,7 @@ public class BannerView extends LinearLayout implements ViewPager.OnPageChangeLi
     @Override
     public void onPageScrollStateChanged(int state) {
         if (state == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-            Log.e(TAG, "onPageScrollStateChanged:3333");
+//            Log.e(TAG, "onPageScrollStateChanged:3333");
             if (this.position == 0 || this.position == imageViews.size() - 1) {
                 //当为flase时 从第一张跳到最后一张不会有弹动的页面  为true时 会显示弹动的页面
                 view_pager.setCurrentItem(modifyPosition, false);

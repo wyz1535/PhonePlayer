@@ -1,44 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.leyifu.phoneplayer.fragment.RankingFragment">
+    android:background="@color/white"
+    tools:context="com.leyifu.phoneplayer.fragment.RecommendFragment">
 
-    <LinearLayout
-        android:id="@+id/ll_net_error"
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/recycler_view_ranking"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/iv_net_errot"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/load_error" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/net_error"
-            android:textStyle="bold" />
+    <ProgressBar
+        android:id="@+id/progress_bar_ranking"
+        style="@style/progress_bar" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/net_error_no_me" />
+    <include layout="@layout/net_error_refresh" />
 
-        <Button
-            android:id="@+id/btn_net_erro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_error_shape"
-            android:text="@string/again"
-            android:textColor="@color/white" />
 
-    </LinearLayout>
-</FrameLayout>
+</RelativeLayout>

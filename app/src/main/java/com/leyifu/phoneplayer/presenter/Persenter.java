@@ -1,8 +1,10 @@
 package com.leyifu.phoneplayer.presenter;
 
 import com.leyifu.phoneplayer.bean.RecommendBean;
+import com.leyifu.phoneplayer.bean.rankingbean.RankingBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
 import com.leyifu.phoneplayer.interf.HttpApi;
+import com.leyifu.phoneplayer.interf.IgetRanking;
 import com.leyifu.phoneplayer.interf.IgetRecommend;
 import com.leyifu.phoneplayer.util.ApiUtils;
 
@@ -62,6 +64,13 @@ public class Persenter {
                 });
     }
 
+    /**
+     * 推荐页面 请求数据
+     *
+     * @param igetRecommend
+     * @param httpApiClass
+     * @param pager
+     */
     public static void getRecommendHome(final IgetRecommend igetRecommend, Class<HttpApi> httpApiClass, String pager) {
 
         Observable<RecommendHomeBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getRecommendHome(pager);
@@ -89,6 +98,44 @@ public class Persenter {
                     @Override
                     public void onNext(RecommendHomeBean recommendHomeBean) {
                         igetRecommend.getRecommendSuccess(recommendHomeBean);
+                    }
+                });
+    }
+
+    /**
+     * 排行榜页面请求数据
+     *
+     * @param igetRanking
+     * @param httpApiClass
+     * @param pager
+     */
+    public static void getRanking(final IgetRanking igetRanking, Class<HttpApi> httpApiClass, String pager) {
+
+        Observable<RankingBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getRanking(pager);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<RankingBean>() {
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        igetRanking.getRankingStart();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        igetRanking.getRankingCompleted();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        igetRanking.getRankingFailed(e);
+                    }
+
+                    @Override
+                    public void onNext(RankingBean rankingBean) {
+                        igetRanking.getRankingSuccess(rankingBean);
                     }
                 });
     }

@@ -2,6 +2,7 @@ package com.leyifu.phoneplayer.interf;
 
 
 import com.leyifu.phoneplayer.bean.RecommendBean;
+import com.leyifu.phoneplayer.bean.rankingbean.RankingBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
 
 import retrofit2.http.GET;
@@ -25,6 +26,9 @@ public interface HttpApi {
 
     @GET("index")
     Observable<RecommendHomeBean> getRecommendHome(@Query("p") String pager);
+
+    @GET("toplist")
+    Observable<RankingBean> getRanking(@Query("p") String page);
 
 }
 

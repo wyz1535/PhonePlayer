@@ -6,7 +6,6 @@
     tools:context="com.leyifu.phoneplayer.fragment.RecommendFragment">
 
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_recommend"
         android:layout_width="match_parent"
@@ -15,10 +14,7 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/cyan_600"
-        android:layout_centerInParent="true" />
+        style="@style/progress_bar" />
 
     <include layout="@layout/net_error_refresh" />
 

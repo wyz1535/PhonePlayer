@@ -109,7 +109,7 @@ public class Persenter {
      * @param httpApiClass
      * @param pager
      */
-    public static void getRanking(final IgetRanking igetRanking, Class<HttpApi> httpApiClass, String pager) {
+    public static void getRanking(final IgetRanking igetRanking, Class<HttpApi> httpApiClass, String pager, final boolean isLoadMore) {
 
         Observable<RankingBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getRanking(pager);
 
@@ -135,7 +135,7 @@ public class Persenter {
 
                     @Override
                     public void onNext(RankingBean rankingBean) {
-                        igetRanking.getRankingSuccess(rankingBean);
+                        igetRanking.getRankingSuccess(rankingBean,isLoadMore);
                     }
                 });
     }

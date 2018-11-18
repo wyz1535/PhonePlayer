@@ -24,4 +24,10 @@
     <string name="hot_app">热门应用</string>
     <string name="hot_game">热门游戏</string>
     <string name="hot_top">热门主题</string>
+
+    <!--<string name="load_more">加载更多...</string>-->
+    <string name="no_more_data">我也是有底线的</string>
+    <string name="load_to_pull">上拉加载更多</string>
+    <string name="load_more">加载中...</string>
+
 </resources>

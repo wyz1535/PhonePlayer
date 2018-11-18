@@ -8,7 +8,7 @@ import com.leyifu.phoneplayer.bean.rankingbean.RankingBean;
 
 public interface IgetRanking {
 
-    void getRankingSuccess(RankingBean rankingBean);
+    void getRankingSuccess(RankingBean rankingBean,boolean isLoadMore);
 
     void getRankingFailed(Throwable e);
 

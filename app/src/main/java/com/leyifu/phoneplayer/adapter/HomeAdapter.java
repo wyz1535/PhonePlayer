@@ -129,7 +129,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             }
 
             BannerViewholder bannerViewholder = (BannerViewholder) holder;
-            bannerViewholder.banner_view.setDatas(imgUrl, titles, null);
+            bannerViewholder.banner_view.setDatas(imgUrl, null, null);
 
         } else if (position == 1) {
 

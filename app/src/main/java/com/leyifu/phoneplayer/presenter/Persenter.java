@@ -120,7 +120,7 @@ public class Persenter {
                     @Override
                     public void onStart() {
                         super.onStart();
-                        igetRanking.getRankingStart();
+                        igetRanking.getRankingStart(isLoadMore);
                     }
 
                     @Override
@@ -139,4 +139,6 @@ public class Persenter {
                     }
                 });
     }
+
+
 }

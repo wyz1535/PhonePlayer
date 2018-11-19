@@ -98,11 +98,11 @@ public class RankingFragment extends Fragment implements IgetRanking {
                     int itemCount = layoutManager.getItemCount();
                     if (mRankingBean.getData().isHasMore()) {
                         if (lastVisibleItemPosition == 1) {
-                            rankingAdapter.upstate(rankingAdapter.LOAD_NONE);
+                            rankingAdapter.upstate(RankingAdapter.LOAD_NONE);
                             return;
                         } else if (lastVisibleItemPosition + 1 == itemCount) {
-                            rankingAdapter.upstate(rankingAdapter.LOAD_TO_PULL);
-                            rankingAdapter.upstate(rankingAdapter.LOAD_MORE);
+                            rankingAdapter.upstate(RankingAdapter.LOAD_TO_PULL);
+                            rankingAdapter.upstate(RankingAdapter.LOAD_MORE);
 
                             new Handler().postDelayed(new Runnable() {
                                 @Override
@@ -114,7 +114,7 @@ public class RankingFragment extends Fragment implements IgetRanking {
 
                         }
                     } else {
-                        rankingAdapter.upstate(rankingAdapter.LOAD_NONE);
+                        rankingAdapter.upstate(RankingAdapter.LOAD_NONE);
                         return;
                     }
                 }
@@ -161,9 +161,14 @@ public class RankingFragment extends Fragment implements IgetRanking {
     }
 
     @Override
-    public void getRankingStart() {
-        llNetError.setVisibility(View.GONE);
-        progressBarRanking.setVisibility(View.VISIBLE);
+    public void getRankingStart(boolean isLoadMore) {
+        if (isLoadMore) {
+            llNetError.setVisibility(View.GONE);
+            progressBarRanking.setVisibility(View.GONE);
+        } else {
+            llNetError.setVisibility(View.GONE);
+            progressBarRanking.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

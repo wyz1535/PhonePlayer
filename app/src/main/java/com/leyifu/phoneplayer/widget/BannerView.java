@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -109,7 +108,7 @@ public class BannerView extends LinearLayout implements ViewPager.OnPageChangeLi
         view_pager.setAdapter(new BannerAdapter(getContext(), imageViews, titles));
 
         view_pager.setCurrentItem(1);
-        if (titles.size() > 0) {
+        if (titles != null && titles.size() > 0) {
             tv_title.setText(titles.get(0));
         }
         ll_point.getChildAt(0).setEnabled(false);
@@ -166,7 +165,7 @@ public class BannerView extends LinearLayout implements ViewPager.OnPageChangeLi
 
 //        让当前点变红 上一次点变白
         if (prePosition != modifyPosition) {
-            if (titles.size() > 0) {
+            if (titles != null && titles.size() > 0) {
                 tv_title.setText(titles.get(modifyPosition - 1));
             }
             ll_point.getChildAt(modifyPosition - 1).setEnabled(false);

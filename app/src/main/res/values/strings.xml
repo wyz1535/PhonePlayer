@@ -30,4 +30,8 @@
     <string name="load_to_pull">上拉加载更多</string>
     <string name="load_more">加载中...</string>
 
+    <string name="msisdn">输入手机号码</string>
+    <string name="password">输入密码</string>
+    <string name="login">登  陆</string>
+
 </resources>

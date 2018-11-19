@@ -58,6 +58,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@drawable/btn_shape"
+        android:layout_marginRight="10dp"
         android:text="@string/app_install"
         android:textColor="@android:color/white" />
 

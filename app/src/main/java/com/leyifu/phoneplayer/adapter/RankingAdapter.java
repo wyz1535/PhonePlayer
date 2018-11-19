@@ -135,7 +135,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
             ll_footer = ((LinearLayout) itemView.findViewById(R.id.ll_footer));
             progress_bar_foot = ((ProgressBar) itemView.findViewById(R.id.progress_bar_foot));
             tv_footer_load = ((TextView) itemView.findViewById(R.id.tv_footer_load));
-            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80);
+            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100);
             itemView.setLayoutParams(params);
         }
     }

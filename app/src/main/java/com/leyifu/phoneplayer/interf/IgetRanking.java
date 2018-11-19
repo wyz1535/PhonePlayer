@@ -12,7 +12,7 @@ public interface IgetRanking {
 
     void getRankingFailed(Throwable e);
 
-    void getRankingStart();
+    void getRankingStart(boolean isLoadMore);
 
     void getRankingCompleted();
 }

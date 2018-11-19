@@ -30,5 +30,8 @@ public interface HttpApi {
     @GET("toplist")
     Observable<RankingBean> getRanking(@Query("p") String page);
 
+//    @POST("login ")
+//    Observable<LoginBean> getLogin(@Body("email") String phone,@Body("password") String password);
+
 }
 

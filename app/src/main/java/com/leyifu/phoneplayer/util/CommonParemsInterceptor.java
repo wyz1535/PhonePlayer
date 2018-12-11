@@ -35,6 +35,7 @@ public class CommonParemsInterceptor implements Interceptor {
     Map<String, Object> commonParams = new HashMap<>();
     private Context mContext;
 
+
     public CommonParemsInterceptor() {
     }
 
@@ -51,17 +52,20 @@ public class CommonParemsInterceptor implements Interceptor {
 
         String imei = DeviceUtils.getIMEI(mContext);
 
-        if(imei !=null && imei.startsWith("000000")){
-            imei ="5284047f4ffb4e04824a2fd1d1f0cd62";
+        if (imei != null && imei.startsWith("000000")) {
+            imei = "5284047f4ffb4e04824a2fd1d1f0cd62";
         }
 
         commonParams.put(Constants.IMEI, imei);
-        commonParams.put(Constants.MODEL,DeviceUtils.getModel());
-        commonParams.put(Constants.LANGUAGE,DeviceUtils.getLanguage());
-        commonParams.put(Constants.os,DeviceUtils.getBuildVersionIncremental());
-        commonParams.put(Constants.RESOLUTION, DensityUtil.getScreenW(mContext)+"*" + DensityUtil.getScreenH(mContext));
-        commonParams.put(Constants.SDK,DeviceUtils.getBuildVersionSDK()+"");
-        commonParams.put(Constants.DENSITY_SCALE_FACTOR, mContext.getResources().getDisplayMetrics().density+"");
+        commonParams.put(Constants.MODEL, DeviceUtils.getModel());
+        commonParams.put(Constants.LANGUAGE, DeviceUtils.getLanguage());
+        commonParams.put(Constants.os, DeviceUtils.getBuildVersionIncremental());
+        commonParams.put(Constants.RESOLUTION, DensityUtil.getScreenW(mContext) + "*" + DensityUtil.getScreenH(mContext));
+        commonParams.put(Constants.SDK, DeviceUtils.getBuildVersionSDK() + "");
+        commonParams.put(Constants.DENSITY_SCALE_FACTOR, mContext.getResources().getDisplayMetrics().density + "");
+
+//        String token = ACache.get(mContext).getAsString(Constant.TOKEN);
+        commonParams.put(Constants.TOKEN, "");
 
         if ("GET".equals(method)) {
 
@@ -98,7 +102,7 @@ public class CommonParemsInterceptor implements Interceptor {
 
             url = url + "?" + "p=" + newParamsJson;
 
-            Log.d(TAG, "intercept: url" + httpUrl + "  request: " + request + " newurl:"+ url);
+            Log.e(TAG, "intercept: url" + httpUrl + "  request: " + request + " newurl:" + url);
 
             request = request.newBuilder().url(url).build();
 
@@ -106,7 +110,6 @@ public class CommonParemsInterceptor implements Interceptor {
         } else if ("POST".equals(method)) {
 
             RequestBody body = request.body();
-
             HashMap<String, Object> rootMap = new HashMap<>();
             if (body instanceof FormBody) { // form 表单
 
@@ -114,7 +117,6 @@ public class CommonParemsInterceptor implements Interceptor {
 
                     rootMap.put(((FormBody) body).encodedName(i), ((FormBody) body).encodedValue(i));
                 }
-
             } else {
 
                 Buffer buffer = new Buffer();
@@ -124,13 +126,15 @@ public class CommonParemsInterceptor implements Interceptor {
                 String oldJsonParams = buffer.readUtf8();
 
                 if (!TextUtils.isEmpty(oldJsonParams)) {
-
                     rootMap = gson.fromJson(oldJsonParams, HashMap.class); // 原始参数
+                    Log.e(TAG, "intercept: rootMap=" + rootMap);
                     if (rootMap != null) {
                         rootMap.put("publicParams", commonParams); // 重新组装
                         String newJsonParams = gson.toJson(rootMap); // {"page":0,"publicParams":{"imei":'xxxxx',"sdk":14,.....}}
 
                         request = request.newBuilder().post(RequestBody.create(JSON, newJsonParams)).build();
+                        Log.e(TAG, "intercept: " + request + " oldJsonParams= " + oldJsonParams + " newJsonParams= " + newJsonParams);
+
                     }
                 }
             }
@@ -138,4 +142,5 @@ public class CommonParemsInterceptor implements Interceptor {
         }
         return chain.proceed(request);
     }
+
 }

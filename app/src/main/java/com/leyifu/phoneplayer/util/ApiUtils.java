@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiUtils {
 
-    public static OkHttpClient getOkHttpClient() {
+    private static OkHttpClient getOkHttpClient() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
 
         // 开发模式记录整个body，否则只记录基本信息如返回200，http协议版本等
@@ -32,7 +32,6 @@ public class ApiUtils {
     }
 
     public static final Retrofit getRetrofit() {
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)

@@ -2,12 +2,20 @@ package com.leyifu.phoneplayer.act;
 
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.jakewharton.rxbinding3.InitialValueObservable;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.leyifu.phoneplayer.R;
+import com.leyifu.phoneplayer.bean.loginbean.LoginBean;
+import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
+import com.leyifu.phoneplayer.interf.HttpApi;
+import com.leyifu.phoneplayer.interf.IgetLogin;
+import com.leyifu.phoneplayer.presenter.Persenter;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -17,7 +25,7 @@ import io.reactivex.functions.Consumer;
 
 //import com.jakewharton.rxbinding3.widget.RxTextView;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements IgetLogin {
 
     private static final String TAG = "LoginActivity";
     @BindView(R.id.toolbar_login)
@@ -43,10 +51,6 @@ public class LoginActivity extends BaseActivity {
         toolbarLogin.setTitle("登陆");
         toolbarLogin.setNavigationIcon(R.drawable.icon_app);
 //        setSupportActionBar(toolbarLogin);
-
-//        msisdn = etMsisdn.getText().toString();
-//        password = etPassword.getText().toString();
-
 
         InitialValueObservable<CharSequence> obMsisdn = RxTextView.textChanges(etMsisdn);
         InitialValueObservable<CharSequence> obPassword = RxTextView.textChanges(etPassword);
@@ -76,6 +80,31 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked() {
 //        tilMsisdn.setError("输入错误");
 
+        msisdn = etMsisdn.getText().toString().trim();
+        password = etPassword.getText().toString().trim();
+
+        LoginRequestBean loginRequestBean = new LoginRequestBean();
+        loginRequestBean.setEmail(msisdn);
+        loginRequestBean.setPassword(password);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("email", msisdn);
+        params.put("password", password);
+
+
+        Persenter.pGetLogin(this, HttpApi.class, loginRequestBean);
+//        Persenter.pGetLogin(this, HttpApi.class, msisdn, password);
+
     }
 
+
+    @Override
+    public void iGetLoginSuccess(LoginBean loginBean) {
+        Log.e(TAG, "iGetLoginSuccess:  getToken: " + loginBean.getToken() + " getToken: " + loginBean.getUser());
+    }
+
+    @Override
+    public void iGetLoginFailed(Throwable throwable) {
+        Log.e(TAG, "iGetLoginFailed: " + throwable);
+    }
 }

@@ -11,8 +11,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_login"
         android:layout_width="match_parent"
-        android:background="@color/cyan_600"
-        android:layout_height="?attr/actionBarSize"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/cyan_600" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til_msisdn"
@@ -53,11 +53,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/login_selector"
         android:text="@string/login"
         android:textColor="@color/white"
-        android:layout_marginRight="10dp"
-        android:textSize="18sp"
-        android:layout_marginTop="50dp" />
+        android:textSize="18sp" />
 
 </LinearLayout>

@@ -1,9 +1,12 @@
 package com.leyifu.phoneplayer.presenter;
 
 import com.leyifu.phoneplayer.bean.RecommendBean;
+import com.leyifu.phoneplayer.bean.loginbean.LoginBean;
+import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
 import com.leyifu.phoneplayer.bean.rankingbean.RankingBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
 import com.leyifu.phoneplayer.interf.HttpApi;
+import com.leyifu.phoneplayer.interf.IgetLogin;
 import com.leyifu.phoneplayer.interf.IgetRanking;
 import com.leyifu.phoneplayer.interf.IgetRecommend;
 import com.leyifu.phoneplayer.util.ApiUtils;
@@ -11,6 +14,7 @@ import com.leyifu.phoneplayer.util.ApiUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
@@ -135,9 +139,32 @@ public class Persenter {
 
                     @Override
                     public void onNext(RankingBean rankingBean) {
-                        igetRanking.getRankingSuccess(rankingBean,isLoadMore);
+                        igetRanking.getRankingSuccess(rankingBean, isLoadMore);
                     }
                 });
+    }
+
+//    public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, String msisdn, String password) {
+//    public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, HashMap<String,String> map) {
+    public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, LoginRequestBean loginRequestBean) {
+
+//        Log.e("LoginActivity", "msisdn: "+msisdn +"  password: " + password);
+        Observable<LoginBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getLogin(loginRequestBean);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<LoginBean>() {
+                    @Override
+                    public void call(LoginBean loginBean) {
+                        igetLogin.iGetLoginSuccess(loginBean);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        igetLogin.iGetLoginFailed(throwable);
+                    }
+                });
+
     }
 
 

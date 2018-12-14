@@ -2,7 +2,6 @@ package com.leyifu.phoneplayer.util;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.leyifu.phoneplayer.act.MyApplication;
@@ -102,7 +101,7 @@ public class CommonParemsInterceptor implements Interceptor {
 
             url = url + "?" + "p=" + newParamsJson;
 
-            Log.e(TAG, "intercept: url" + httpUrl + "  request: " + request + " newurl:" + url);
+//            Log.e(TAG, "intercept: url" + httpUrl + "  request: " + request + " newurl:" + url);
 
             request = request.newBuilder().url(url).build();
 
@@ -127,20 +126,19 @@ public class CommonParemsInterceptor implements Interceptor {
 
                 if (!TextUtils.isEmpty(oldJsonParams)) {
                     rootMap = gson.fromJson(oldJsonParams, HashMap.class); // 原始参数
-                    Log.e(TAG, "intercept: rootMap=" + rootMap);
                     if (rootMap != null) {
                         rootMap.put("publicParams", commonParams); // 重新组装
                         String newJsonParams = gson.toJson(rootMap); // {"page":0,"publicParams":{"imei":'xxxxx',"sdk":14,.....}}
 
                         request = request.newBuilder().post(RequestBody.create(JSON, newJsonParams)).build();
-                        Log.e(TAG, "intercept: " + request + " oldJsonParams= " + oldJsonParams + " newJsonParams= " + newJsonParams);
-
+//                        Log.e(TAG, "intercept: " + request + " oldJsonParams= " + oldJsonParams + " newJsonParams= " + newJsonParams);
                     }
                 }
             }
 
         }
-        return chain.proceed(request);
+        Response response = chain.proceed(request);
+        return response;
     }
 
 }

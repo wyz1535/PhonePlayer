@@ -1,7 +1,7 @@
 package com.leyifu.phoneplayer.presenter;
 
 import com.leyifu.phoneplayer.bean.RecommendBean;
-import com.leyifu.phoneplayer.bean.loginbean.LoginBean;
+import com.leyifu.phoneplayer.bean.loginbean.LoginDataBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
 import com.leyifu.phoneplayer.bean.rankingbean.RankingBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
@@ -144,27 +144,28 @@ public class Persenter {
                 });
     }
 
-//    public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, String msisdn, String password) {
+    //    public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, String msisdn, String password) {
 //    public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, HashMap<String,String> map) {
     public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, LoginRequestBean loginRequestBean) {
 
-//        Log.e("LoginActivity", "msisdn: "+msisdn +"  password: " + password);
-        Observable<LoginBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getLogin(loginRequestBean);
+        Observable<LoginDataBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getLogin(loginRequestBean);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<LoginBean>() {
+                .subscribe(new Action1<LoginDataBean>() {
                     @Override
-                    public void call(LoginBean loginBean) {
-                        igetLogin.iGetLoginSuccess(loginBean);
+                    public void call(LoginDataBean loginDataBean) {
+igetLogin.iGetLoginSuccess(loginDataBean);
                     }
+
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        igetLogin.iGetLoginFailed(throwable);
+                       igetLogin.iGetLoginFailed(throwable);
                     }
                 });
 
+//
     }
 
 

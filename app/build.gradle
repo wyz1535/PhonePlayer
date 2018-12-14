@@ -49,6 +49,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    //出现异常仍然可以处理
+    implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+
 
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha1'
 
@@ -63,4 +66,7 @@ dependencies {
 
     //svg转动画
     implementation 'com.eftimoff:android-pathview:1.0.8@aar'
+
+    //圆形图片
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }

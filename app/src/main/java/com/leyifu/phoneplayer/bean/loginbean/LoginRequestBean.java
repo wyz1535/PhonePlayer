@@ -25,11 +25,11 @@ public class LoginRequestBean {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "LoginRequestBean{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "LoginRequestBean{" +
+//                "email='" + email + '\'' +
+//                ", password='" + password + '\'' +
+//                '}';
+//    }
 }

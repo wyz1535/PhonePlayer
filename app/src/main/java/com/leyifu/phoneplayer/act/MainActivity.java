@@ -1,5 +1,6 @@
 package com.leyifu.phoneplayer.act;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -11,13 +12,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.leyifu.phoneplayer.R;
 import com.leyifu.phoneplayer.adapter.ViewPagerAdapter;
+import com.leyifu.phoneplayer.bean.loginbean.UserBean;
 import com.leyifu.phoneplayer.fragment.CategoryFragment;
 import com.leyifu.phoneplayer.fragment.GameFragment;
 import com.leyifu.phoneplayer.fragment.RankingFragment;
 import com.leyifu.phoneplayer.fragment.RecommendFragment;
+import com.leyifu.phoneplayer.util.RxBus;
 import com.leyifu.phoneplayer.util.ShowUtil;
 
 import java.util.ArrayList;
@@ -25,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity {
 
@@ -41,6 +47,9 @@ public class MainActivity extends BaseActivity {
     ViewPager mainViewPager;
     @BindView(R.id.tablayout)
     TabLayout tablayout;
+    private ImageView navHeadCircle;
+    private TextView navHeadTitle;
+    private View headerView;
 
     @Override
     public int setLayout() {
@@ -50,17 +59,19 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
 
-
-
-
-
         initNavigation();
 
         initToolBar();
 
         initTablayout();
-    }
 
+        RxBus.getDefault().tObservable(UserBean.class).subscribe(new Consumer<UserBean>() {
+            @Override
+            public void accept(UserBean user) throws Exception {
+                initHeadView(user);
+            }
+        });
+    }
 
 
     private void initTablayout() {
@@ -113,12 +124,42 @@ public class MainActivity extends BaseActivity {
 
     private void initNavigation() {
 
-        View headerView = navigationView.getHeaderView(0);
+        headerView = navigationView.getHeaderView(0);
 
-//        headerView.setOnClickListener(navigationHeadListner);
+        navHeadCircle = (ImageView) headerView.findViewById(R.id.nav_head_circle);
+        navHeadTitle = (TextView) headerView.findViewById(R.id.nav_head_title);
+
+        headerView.setOnClickListener(headerViewClick);
 
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
 
+    }
+
+    View.OnClickListener headerViewClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
+    };
+
+    private void initHeadView(UserBean user) {
+        String logo_url = user.getLogo_url();
+        if (!logo_url.startsWith("http")) {
+            Glide.with(this).load("https:" + user.getLogo_url())
+//                .placeholder(getResources().getDrawable(R.drawable.ic_login_svg))
+                    .error(getResources().getDrawable(R.drawable.nav_head))
+//                .dontAnimate()
+                    .centerCrop()
+                    .into(navHeadCircle);
+        } else {
+            Glide.with(this).load(user.getLogo_url())
+                    .error(getResources().getDrawable(R.drawable.nav_head))
+                    .centerCrop()
+                    .into(navHeadCircle);
+        }
+
+        navHeadTitle.setText(user.getUsername());
+        headerView.setEnabled(false);
     }
 
     @OnClick({R.id.navigation_view, R.id.toolbar, R.id.tool_search})

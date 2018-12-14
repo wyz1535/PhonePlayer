@@ -3,19 +3,20 @@ package com.leyifu.phoneplayer.act;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding3.InitialValueObservable;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.leyifu.phoneplayer.R;
-import com.leyifu.phoneplayer.bean.loginbean.LoginBean;
+import com.leyifu.phoneplayer.bean.loginbean.LoginDataBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
 import com.leyifu.phoneplayer.interf.HttpApi;
 import com.leyifu.phoneplayer.interf.IgetLogin;
 import com.leyifu.phoneplayer.presenter.Persenter;
-
-import java.util.HashMap;
+import com.leyifu.phoneplayer.util.RxBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,7 +24,6 @@ import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 
-//import com.jakewharton.rxbinding3.widget.RxTextView;
 
 public class LoginActivity extends BaseActivity implements IgetLogin {
 
@@ -48,9 +48,17 @@ public class LoginActivity extends BaseActivity implements IgetLogin {
 
     @Override
     protected void init() {
-        toolbarLogin.setTitle("登陆");
-        toolbarLogin.setNavigationIcon(R.drawable.icon_app);
+        toolbarLogin.setTitle(getResources().getString(R.string.login));
+        toolbarLogin.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbarLogin.setNavigationIcon(R.drawable.ic_back_svg);
 //        setSupportActionBar(toolbarLogin);
+
+        toolbarLogin.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         InitialValueObservable<CharSequence> obMsisdn = RxTextView.textChanges(etMsisdn);
         InitialValueObservable<CharSequence> obPassword = RxTextView.textChanges(etPassword);
@@ -87,24 +95,23 @@ public class LoginActivity extends BaseActivity implements IgetLogin {
         loginRequestBean.setEmail(msisdn);
         loginRequestBean.setPassword(password);
 
-        HashMap<String, String> params = new HashMap<>();
-        params.put("email", msisdn);
-        params.put("password", password);
-
-
         Persenter.pGetLogin(this, HttpApi.class, loginRequestBean);
-//        Persenter.pGetLogin(this, HttpApi.class, msisdn, password);
+
+//        ApiUtils.okHttpPost(this, Constants.BASE_URL + "login", loginRequestBean);
 
     }
 
 
     @Override
-    public void iGetLoginSuccess(LoginBean loginBean) {
-        Log.e(TAG, "iGetLoginSuccess:  getToken: " + loginBean.getToken() + " getToken: " + loginBean.getUser());
+    public void iGetLoginSuccess(LoginDataBean loginDataBean) {
+        Log.e(TAG, "iGetLoginSuccess: " + loginDataBean.getMessage() + " getStatus:" + loginDataBean.getStatus());
+        RxBus.post(loginDataBean.getData().getUser());
+        finish();
     }
 
     @Override
     public void iGetLoginFailed(Throwable throwable) {
         Log.e(TAG, "iGetLoginFailed: " + throwable);
+        Toast.makeText(this, "登录账户或者密码错误", Toast.LENGTH_SHORT).show();
     }
 }

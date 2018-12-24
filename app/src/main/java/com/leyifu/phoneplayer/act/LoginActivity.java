@@ -13,9 +13,11 @@ import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.leyifu.phoneplayer.R;
 import com.leyifu.phoneplayer.bean.loginbean.LoginDataBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
+import com.leyifu.phoneplayer.constant.Constants;
 import com.leyifu.phoneplayer.interf.HttpApi;
 import com.leyifu.phoneplayer.interf.IgetLogin;
 import com.leyifu.phoneplayer.presenter.Persenter;
+import com.leyifu.phoneplayer.util.ACache;
 import com.leyifu.phoneplayer.util.RxBus;
 
 import butterknife.BindView;
@@ -104,14 +106,21 @@ public class LoginActivity extends BaseActivity implements IgetLogin {
 
     @Override
     public void iGetLoginSuccess(LoginDataBean loginDataBean) {
-        Log.e(TAG, "iGetLoginSuccess: " + loginDataBean.getMessage() + " getStatus:" + loginDataBean.getStatus());
-        RxBus.post(loginDataBean.getData().getUser());
-        finish();
+        if (loginDataBean.getStatus() == 1) {
+            RxBus.post(loginDataBean.getData().getUser());
+            ACache.savedData(this, loginDataBean.getData().getUser(), Constants.USER);
+            ACache.writeFileData(this, Constants.TOKEN, loginDataBean.getData().getToken());
+            finish();
+        } else {
+            Toast.makeText(this, loginDataBean.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void iGetLoginFailed(Throwable throwable) {
         Log.e(TAG, "iGetLoginFailed: " + throwable);
-        Toast.makeText(this, "登录账户或者密码错误", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "登录账户或者密码错误", Toast.LENGTH_SHORT).show();
     }
+
+
 }

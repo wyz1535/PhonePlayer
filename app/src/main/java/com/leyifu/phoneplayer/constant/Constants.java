@@ -6,7 +6,7 @@ package com.leyifu.phoneplayer.constant;
 
 public class Constants {
 
-//    public static final String BASE_URL = "http://112.124.22.238:8081/course_api/cniaoplay/featured?p={'page':0}";
+    //    public static final String BASE_URL = "http://112.124.22.238:8081/course_api/cniaoplay/featured?p={'page':0}";
     //"publicParams":{"resolution":"720*1184","sdk":"23","la":"en","densityScaleFactor":"2.0","imei":"358240051111110","os":"3287151","model":"Android SDK built for x86"}
     public static final String BASE_URL = "http://112.124.22.238:8081/course_api/cniaoplay/";
 
@@ -27,5 +27,6 @@ public class Constants {
     public static final String SDK = "sdk";
     public static final String DENSITY_SCALE_FACTOR = "densityScaleFactor";
 
-    public static final String TOKEN = "token";
+    public static final String TOKEN = "token.out";
+    public static final String USER = "user.out";
 }

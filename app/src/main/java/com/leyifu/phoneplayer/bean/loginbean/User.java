@@ -1,10 +1,12 @@
 package com.leyifu.phoneplayer.bean.loginbean;
 
+import java.io.Serializable;
+
 /**
  * Created by hahaha on 2018/11/19 0019.
  */
 
-public class User {
+public class User implements Serializable{
 
     private String id;
     private String email;

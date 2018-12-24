@@ -155,13 +155,13 @@ public class Persenter {
                 .subscribe(new Action1<LoginDataBean>() {
                     @Override
                     public void call(LoginDataBean loginDataBean) {
-igetLogin.iGetLoginSuccess(loginDataBean);
+                        igetLogin.iGetLoginSuccess(loginDataBean);
                     }
 
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                       igetLogin.iGetLoginFailed(throwable);
+                        igetLogin.iGetLoginFailed(throwable);
                     }
                 });
 

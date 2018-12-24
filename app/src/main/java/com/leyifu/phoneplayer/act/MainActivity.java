@@ -18,10 +18,12 @@ import com.bumptech.glide.Glide;
 import com.leyifu.phoneplayer.R;
 import com.leyifu.phoneplayer.adapter.ViewPagerAdapter;
 import com.leyifu.phoneplayer.bean.loginbean.UserBean;
+import com.leyifu.phoneplayer.constant.Constants;
 import com.leyifu.phoneplayer.fragment.CategoryFragment;
 import com.leyifu.phoneplayer.fragment.GameFragment;
 import com.leyifu.phoneplayer.fragment.RankingFragment;
 import com.leyifu.phoneplayer.fragment.RecommendFragment;
+import com.leyifu.phoneplayer.util.ACache;
 import com.leyifu.phoneplayer.util.RxBus;
 import com.leyifu.phoneplayer.util.ShowUtil;
 
@@ -65,6 +67,7 @@ public class MainActivity extends BaseActivity {
 
         initTablayout();
 
+
         RxBus.getDefault().tObservable(UserBean.class).subscribe(new Consumer<UserBean>() {
             @Override
             public void accept(UserBean user) throws Exception {
@@ -73,6 +76,16 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        UserBean user = (UserBean) ACache.readFileToLocal(this, Constants.USER);
+        String token = ACache.readFileData(this, Constants.TOKEN);
+
+        if (user != null && token != null) {
+            initHeadView(user);
+        }
+    }
 
     private void initTablayout() {
 

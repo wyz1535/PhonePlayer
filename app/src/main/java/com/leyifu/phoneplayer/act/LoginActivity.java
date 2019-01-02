@@ -4,7 +4,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,6 +18,7 @@ import com.leyifu.phoneplayer.interf.IgetLogin;
 import com.leyifu.phoneplayer.presenter.Persenter;
 import com.leyifu.phoneplayer.util.ACache;
 import com.leyifu.phoneplayer.util.RxBus;
+import com.leyifu.phoneplayer.widget.ButtonLoading;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity implements IgetLogin {
     @BindView(R.id.et_password)
     EditText etPassword;
     @BindView(R.id.btn_login)
-    Button btnLogin;
+    ButtonLoading btnLogin;
     @BindView(R.id.til_msisdn)
     TextInputLayout tilMsisdn;
     private String msisdn;
@@ -76,6 +76,8 @@ public class LoginActivity extends BaseActivity implements IgetLogin {
                 btnLogin.setEnabled(aBoolean);
             }
         });
+
+//        btnLogin.noLoad();
     }
 
     private boolean isPhoneValid(String phone) {
@@ -104,23 +106,42 @@ public class LoginActivity extends BaseActivity implements IgetLogin {
     }
 
 
+    private void saveData(LoginDataBean loginDataBean) {
+        ACache aCache = ACache.get(this);
+        aCache.put(Constants.USER, loginDataBean.getData().getUser());
+        aCache.put(Constants.TOKEN, loginDataBean.getData().getToken());
+    }
+
     @Override
     public void iGetLoginSuccess(LoginDataBean loginDataBean) {
+        btnLogin.showLoading();
         if (loginDataBean.getStatus() == 1) {
             RxBus.post(loginDataBean.getData().getUser());
-            ACache.savedData(this, loginDataBean.getData().getUser(), Constants.USER);
-            ACache.writeFileData(this, Constants.TOKEN, loginDataBean.getData().getToken());
+            saveData(loginDataBean);
+            Toast.makeText(this, getResources().getString(R.string.login_success), Toast.LENGTH_SHORT).show();
             finish();
         } else {
             Toast.makeText(this, loginDataBean.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
+
+
     @Override
     public void iGetLoginFailed(Throwable throwable) {
         Log.e(TAG, "iGetLoginFailed: " + throwable);
 //        Toast.makeText(this, "登录账户或者密码错误", Toast.LENGTH_SHORT).show();
+        btnLogin.showButtonText();
+
     }
 
+    @Override
+    public void iGetShowLoading() {
+        btnLogin.showButtonText();
+    }
 
+    @Override
+    public void iGetCompleted() {
+        btnLogin.showButtonText();
+    }
 }

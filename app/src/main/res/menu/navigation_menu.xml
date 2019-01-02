@@ -2,19 +2,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item
-        android:id="@+id/refresh"
-        android:icon="@drawable/ic_refresh_svg"
-        android:title="@string/refresh" />
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/message"
-        android:icon="@drawable/ic_message_svg"
-        android:title="@string/message" />
+        <item
+            android:id="@+id/refresh"
+            android:icon="@drawable/ic_refresh_svg"
+            android:title="@string/refresh" />
 
-    <item
-        android:id="@+id/setting"
-        android:icon="@drawable/ic_setting_svg"
-        android:title="@string/setting" />
+        <item
+            android:id="@+id/loadmanager"
+            android:icon="@drawable/ic_load_svg"
+            android:title="@string/loadmanager" />
+
+        <item
+            android:id="@+id/uninstall"
+            android:icon="@drawable/ic_uninstall_svg"
+            android:title="@string/uninstall" />
+        <item
+            android:id="@+id/setting"
+            android:icon="@drawable/ic_setting_svg"
+            android:title="@string/setting" />
+    </group>
+
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout_svg"
+            android:title="@string/logout" />
+    </group>
 
 </menu>

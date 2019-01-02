@@ -12,5 +12,9 @@ public interface IgetLogin {
 
     void iGetLoginFailed(Throwable throwable);
 
+    void iGetShowLoading();
+
+    void iGetCompleted();
+
 //    void iGetLoginSuccess(LoginDataBean.LoginBean loginBean);
 }

@@ -48,7 +48,19 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <Button
+    <!--<Button-->
+    <!--android:id="@+id/btn_login"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_marginTop="50dp"-->
+    <!--android:background="@drawable/login_selector"-->
+    <!--android:text="@string/login"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="18sp" />-->
+
+    <com.leyifu.phoneplayer.widget.ButtonLoading
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,9 +68,10 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/login_selector"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
+        app:progressColor="@color/cyan_600"
+        app:textColor="@color/white"
+        app:textLoading="正在登陆"
+        app:textName="登 陆"
+        app:textSize="10sp" />
 
 </LinearLayout>

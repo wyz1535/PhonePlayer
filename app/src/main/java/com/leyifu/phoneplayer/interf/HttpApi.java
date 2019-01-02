@@ -1,6 +1,7 @@
 package com.leyifu.phoneplayer.interf;
 
 
+import com.leyifu.phoneplayer.bean.CategoryBead.CategoryBean;
 import com.leyifu.phoneplayer.bean.RecommendBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginDataBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
@@ -39,6 +40,14 @@ public interface HttpApi {
 
 //    @POST("login")
 //    Observable<LoginBean> getLogin(@QueryMap HashMap<String,String> paramsMap);
+
+    /**
+     * 分类
+     * @return
+     * @param
+     */
+    @GET("category")
+    Observable<CategoryBean> getCategory();
 
 }
 

@@ -63,9 +63,9 @@ public class CommonParemsInterceptor implements Interceptor {
         commonParams.put(Constants.RESOLUTION, DensityUtil.getScreenW(mContext) + "*" + DensityUtil.getScreenH(mContext));
         commonParams.put(Constants.SDK, DeviceUtils.getBuildVersionSDK() + "");
         commonParams.put(Constants.DENSITY_SCALE_FACTOR, mContext.getResources().getDisplayMetrics().density + "");
+        String token = ACache.get(mContext).getAsString(Constants.TOKEN);
 
-//        String token = ACache.get(mContext).getAsString(Constant.TOKEN);
-        commonParams.put(Constants.TOKEN, "");
+        commonParams.put("token", token == null ? "" : token);
 
         if ("GET".equals(method)) {
 
@@ -80,9 +80,14 @@ public class CommonParemsInterceptor implements Interceptor {
                 if ("p".equals(allParamName)) {
 
                     String oldParamsJson = httpUrl.queryParameter("p");
-                    rootMap = gson.fromJson(oldParamsJson, HashMap.class);
+                    HashMap<String, Object> p = gson.fromJson(oldParamsJson, HashMap.class);
                     rootMap.put("publicParams", commonParams);
-
+//                    if (p != null) {
+//                        for (Map.Entry<String, Object> entry : p.entrySet()) {
+//
+//                            rootMap.put(entry.getKey(), entry.getValue());
+//                        }
+//                    }
 
                 } else {
                     rootMap.put(allParamName, httpUrl.queryParameter(allParamName));
@@ -90,7 +95,9 @@ public class CommonParemsInterceptor implements Interceptor {
 
             }
 
+            rootMap.put("publicParams", commonParams); // 重新组装
             String newParamsJson = gson.toJson(rootMap);
+            Log.e(TAG, "intercept: newParamsJson:" + newParamsJson);
 
             String url = httpUrl.toString();
 
@@ -102,7 +109,7 @@ public class CommonParemsInterceptor implements Interceptor {
 
             url = url + "?" + "p=" + newParamsJson;
 
-//            Log.e(TAG, "intercept: url" + httpUrl + "  request: " + request + " newurl:" + url);
+            Log.e(TAG, "intercept: oldurl: " + httpUrl + "  request: " + request + " newurl:" + url);
 
             request = request.newBuilder().url(url).build();
 

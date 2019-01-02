@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="button_loading" >
+
+        <attr name="textName" format="string" />
+
+        <attr name="textLoading" format="string" />
+
+        <attr name="textSize" format="dimension" />
+
+        <attr name="textColor" format="color|reference" />
+
+        <attr name="progressColor" format="color|reference" />
+
+
+    </declare-styleable>
+
+</resources>

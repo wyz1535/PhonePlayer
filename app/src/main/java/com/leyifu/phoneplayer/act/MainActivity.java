@@ -1,6 +1,7 @@
 package com.leyifu.phoneplayer.act;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -67,6 +68,7 @@ public class MainActivity extends BaseActivity {
 
         initTablayout();
 
+        initUser();
 
         RxBus.getDefault().tObservable(UserBean.class).subscribe(new Consumer<UserBean>() {
             @Override
@@ -76,14 +78,12 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        UserBean user = (UserBean) ACache.readFileToLocal(this, Constants.USER);
-        String token = ACache.readFileData(this, Constants.TOKEN);
+    private void initUser() {
 
-        if (user != null && token != null) {
-            initHeadView(user);
+        Object obj = ACache.get(this).getAsObject(Constants.USER);
+        if (obj != null) {
+            UserBean userBean = (UserBean) obj;
+            initHeadView(userBean);
         }
     }
 
@@ -146,6 +146,26 @@ public class MainActivity extends BaseActivity {
 
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
 
+        menuSelect();
+
+    }
+
+    /**
+     * menu 选择器
+     */
+    private void menuSelect() {
+        int[][] states = new int[][]{
+                new int[]{-android.R.attr.state_checked},
+                new int[]{android.R.attr.state_checked}
+        };
+
+        int[] colors = new int[]{getResources().getColor(R.color.black02),
+                getResources().getColor(R.color.white)
+        };
+        ColorStateList csl = new ColorStateList(states, colors);
+
+        navigationView.setItemTextColor(csl);
+        navigationView.setItemIconTintList(csl);
     }
 
     View.OnClickListener headerViewClick = new View.OnClickListener() {
@@ -200,12 +220,26 @@ public class MainActivity extends BaseActivity {
                     ShowUtil.toast(MainActivity.this, "this is a refresh");
                     break;
 
-                case R.id.message:
-                    ShowUtil.toast(MainActivity.this, "this is a message");
+                case R.id.loadmanager:
+                    ShowUtil.toast(MainActivity.this, "this is a loadmanager");
                     break;
 
                 case R.id.setting:
                     ShowUtil.toast(MainActivity.this, "this is a setting");
+                    break;
+                case R.id.uninstall:
+                    ShowUtil.toast(MainActivity.this, "this is a uninstall");
+                    break;
+                case R.id.logout:
+                    ACache aCache = ACache.get(MainActivity.this);
+                    aCache.put(Constants.TOKEN, "");
+                    aCache.put(Constants.USER, "");
+
+                    navHeadTitle.setText(getResources().getString(R.string.no_login));
+                    headerView.setEnabled(true);
+                    navHeadCircle.setImageDrawable(getResources().getDrawable(R.drawable.ic_nologin_svg));
+
+                    ShowUtil.toast(MainActivity.this, getResources().getString(R.string.logouted));
                     break;
 
                 default:

@@ -1,11 +1,13 @@
 package com.leyifu.phoneplayer.presenter;
 
+import com.leyifu.phoneplayer.bean.CategoryBead.CategoryBean;
 import com.leyifu.phoneplayer.bean.RecommendBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginDataBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
 import com.leyifu.phoneplayer.bean.rankingbean.RankingBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
 import com.leyifu.phoneplayer.interf.HttpApi;
+import com.leyifu.phoneplayer.interf.IgetCategory;
 import com.leyifu.phoneplayer.interf.IgetLogin;
 import com.leyifu.phoneplayer.interf.IgetRanking;
 import com.leyifu.phoneplayer.interf.IgetRecommend;
@@ -144,29 +146,59 @@ public class Persenter {
                 });
     }
 
-    //    public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, String msisdn, String password) {
-//    public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, HashMap<String,String> map) {
+    /**
+     * 登陆
+     * @param igetLogin
+     * @param httpApiClass
+     * @param loginRequestBean  登陆参数
+     */
     public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, LoginRequestBean loginRequestBean) {
 
         Observable<LoginDataBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getLogin(loginRequestBean);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<LoginDataBean>() {
+                .subscribe(new Subscriber<LoginDataBean>() {
                     @Override
-                    public void call(LoginDataBean loginDataBean) {
+                    public void onStart() {
+                        super.onStart();
+                        igetLogin.iGetShowLoading();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        igetLogin.iGetCompleted();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        igetLogin.iGetLoginFailed(e);
+                    }
+
+                    @Override
+                    public void onNext(LoginDataBean loginDataBean) {
                         igetLogin.iGetLoginSuccess(loginDataBean);
                     }
-
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        igetLogin.iGetLoginFailed(throwable);
-                    }
                 });
-
-//
     }
 
 
+    public static void pGetCategory(final IgetCategory igetCategory, Class<HttpApi> httpApiClass) {
+
+        Observable<CategoryBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getCategory();
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<CategoryBean>() {
+                    @Override
+                    public void call(CategoryBean categoryBean) {
+                        igetCategory.iGetCategorySuccess(categoryBean);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        igetCategory.iGetCategoryFailed(throwable);
+                    }
+                });
+    }
 }

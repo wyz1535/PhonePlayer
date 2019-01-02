@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">PhonePlayer</string>
     <string name="app_title">手机助手</string>
-    <string name="setting">设置</string>
-    <string name="refresh">刷新</string>
+    <string name="setting">系统设置</string>
+    <string name="refresh">应用更新</string>
     <string name="message">消息</string>
+    <string name="uninstall">应用卸载</string>
+    <string name="loadmanager">下载管理</string>
+    <string name="logout">退出登录</string>
+    <string name="logouted">"你已退出登录"</string>
     <string name="phone_name">手机助手</string>
     <string name="search">搜索</string>
     <string name="open">关闭</string>
@@ -34,5 +38,6 @@
     <string name="password">输入密码</string>
     <string name="login">登  陆</string>
     <string name="no_login">未登录</string>
+    <string name="login_success">登录成功</string>
 
 </resources>

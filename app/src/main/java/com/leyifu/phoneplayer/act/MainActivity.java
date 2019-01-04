@@ -193,6 +193,7 @@ public class MainActivity extends BaseActivity {
 
         navHeadTitle.setText(user.getUsername());
         headerView.setEnabled(false);
+
     }
 
     @OnClick({R.id.navigation_view, R.id.toolbar, R.id.tool_search})

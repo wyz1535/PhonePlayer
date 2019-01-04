@@ -29,4 +29,6 @@ public class Constants {
 
     public static final String TOKEN = "token.out";
     public static final String USER = "user.out";
+
+    public static final String CATEGORY_APP_ID = "categoryAppId";
 }

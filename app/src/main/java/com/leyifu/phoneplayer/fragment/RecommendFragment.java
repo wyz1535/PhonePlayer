@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,8 +121,6 @@ public class RecommendFragment extends Fragment implements IgetRecommend {
 
     @Override
     public void getRecommendFailed(Throwable e) {
-
-        Log.e(TAG, "getRecommendFailed: " + e);
 
         llNetError.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);

@@ -1,13 +1,15 @@
 package com.leyifu.phoneplayer.presenter;
 
-import com.leyifu.phoneplayer.bean.CategoryBead.CategoryBean;
 import com.leyifu.phoneplayer.bean.RecommendBean;
+import com.leyifu.phoneplayer.bean.categoryAndGoodBean.CategoryAndGood;
+import com.leyifu.phoneplayer.bean.categoryBean.CategoryBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginDataBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
 import com.leyifu.phoneplayer.bean.rankingbean.RankingBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
 import com.leyifu.phoneplayer.interf.HttpApi;
 import com.leyifu.phoneplayer.interf.IgetCategory;
+import com.leyifu.phoneplayer.interf.IgetCategoryAndGood;
 import com.leyifu.phoneplayer.interf.IgetLogin;
 import com.leyifu.phoneplayer.interf.IgetRanking;
 import com.leyifu.phoneplayer.interf.IgetRecommend;
@@ -16,7 +18,6 @@ import com.leyifu.phoneplayer.util.ApiUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
@@ -26,6 +27,8 @@ import rx.schedulers.Schedulers;
 
 public class Persenter {
 
+
+    private static Observable<CategoryAndGood> observable;
 
     public static void getRecommend(final IgetRecommend igetRecommend, Class<HttpApi> httpApiClass, String pager) {
 
@@ -148,9 +151,10 @@ public class Persenter {
 
     /**
      * 登陆
+     *
      * @param igetLogin
      * @param httpApiClass
-     * @param loginRequestBean  登陆参数
+     * @param loginRequestBean 登陆参数
      */
     public static void pGetLogin(final IgetLogin igetLogin, Class<HttpApi> httpApiClass, LoginRequestBean loginRequestBean) {
 
@@ -183,21 +187,106 @@ public class Persenter {
     }
 
 
+    /**
+     * 分类
+     *
+     * @param igetCategory
+     * @param httpApiClass
+     */
     public static void pGetCategory(final IgetCategory igetCategory, Class<HttpApi> httpApiClass) {
+
 
         Observable<CategoryBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getCategory();
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<CategoryBean>() {
+                .subscribe(new Subscriber<CategoryBean>() {
+                               @Override
+                               public void onStart() {
+                                   super.onStart();
+                                   igetCategory.iGetCategoryStart();
+                               }
+
+                               @Override
+                               public void onCompleted() {
+                                   igetCategory.iGetCategoryComplate();
+                               }
+
+                               @Override
+                               public void onError(Throwable e) {
+                                   igetCategory.iGetCategoryFailed(e);
+                               }
+
+                               @Override
+                               public void onNext(CategoryBean categoryBean) {
+                                   igetCategory.iGetCategorySuccess(categoryBean,false);
+                               }
+                           }
+                );
+    }
+
+
+    public static void getCategoryAndGood(final IgetCategoryAndGood igetCategoryAndGood, Class<HttpApi> httpApiClass, int categoryId, int categoryPosition, int page, final boolean isLoadMore) {
+
+        if (categoryPosition == 0) {
+            observable = ApiUtils.getRetrofit().create(httpApiClass).getCategoryAndGood(categoryId, page);
+        } else if (categoryPosition == 1) {
+            observable = ApiUtils.getRetrofit().create(httpApiClass).getCategoryAndTop(categoryId, page);
+        } else if (categoryPosition == 2) {
+            observable = ApiUtils.getRetrofit().create(httpApiClass).getCategoryAndNewList(categoryId, page);
+        }
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CategoryAndGood>() {
                     @Override
-                    public void call(CategoryBean categoryBean) {
-                        igetCategory.iGetCategorySuccess(categoryBean);
+                    public void onStart() {
+                        super.onStart();
+                        igetCategoryAndGood.igetCateGoodStart();
                     }
-                }, new Action1<Throwable>() {
+
                     @Override
-                    public void call(Throwable throwable) {
-                        igetCategory.iGetCategoryFailed(throwable);
+                    public void onCompleted() {
+                        igetCategoryAndGood.igetCateGoodComplete();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        igetCategoryAndGood.igetCateGoodFailed(e);
+                    }
+
+                    @Override
+                    public void onNext(CategoryAndGood categoryAndGood) {
+                        igetCategoryAndGood.igetCateGoodSuccess(categoryAndGood, isLoadMore);
+                    }
+                });
+    }
+
+    public static void pGetGame(final IgetCategoryAndGood igetCategoryAndGood, Class<HttpApi> httpApiClass, int page, final boolean isLoadMore) {
+
+        Observable<CategoryAndGood> observable = ApiUtils.getRetrofit().create(httpApiClass).getGame(page);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CategoryAndGood>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        igetCategoryAndGood.igetCateGoodStart();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        igetCategoryAndGood.igetCateGoodComplete();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        igetCategoryAndGood.igetCateGoodFailed(e);
+                    }
+
+                    @Override
+                    public void onNext(CategoryAndGood categoryAndGood) {
+                        igetCategoryAndGood.igetCateGoodSuccess(categoryAndGood,isLoadMore);
                     }
                 });
     }

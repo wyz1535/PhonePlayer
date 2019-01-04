@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="progress_bar">
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:indeterminateTint="@color/cyan_600"-->
+        <!--android:layout_centerInParent="true"-->
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminateTint">@color/cyan_600</item>
+        <item name="android:layout_centerInParent">true</item>
+
+    </style>
+</resources>

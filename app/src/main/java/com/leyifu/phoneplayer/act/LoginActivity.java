@@ -119,12 +119,13 @@ public class LoginActivity extends BaseActivity implements IgetLogin {
             RxBus.post(loginDataBean.getData().getUser());
             saveData(loginDataBean);
             Toast.makeText(this, getResources().getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+//            CategoryFragment.newInstance(getResources().getString(R.string.login_refresh)).init();
             finish();
+
         } else {
             Toast.makeText(this, loginDataBean.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     @Override
@@ -144,4 +145,5 @@ public class LoginActivity extends BaseActivity implements IgetLogin {
     public void iGetCompleted() {
         btnLogin.showButtonText();
     }
+
 }

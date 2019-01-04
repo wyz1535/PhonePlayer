@@ -1,4 +1,4 @@
-package com.leyifu.phoneplayer.bean.CategoryBead;
+package com.leyifu.phoneplayer.bean.categoryBean;
 
 /**
  * Created by hahaha on 2018/12/26 0026.

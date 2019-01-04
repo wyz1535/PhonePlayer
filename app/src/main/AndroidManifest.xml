@@ -8,10 +8,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 在SDCard中创建与删除文件的权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 往SDCard写入数据的权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".act.MyApplication"
@@ -31,6 +30,7 @@
         <activity android:name=".act.SplashActivity" />
         <activity android:name=".act.GuideActivity" />
         <activity android:name=".act.LoginActivity" />
+        <activity android:name=".act.CategoryAppActivity"></activity>
     </application>
 
 </manifest>

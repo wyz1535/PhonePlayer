@@ -1,4 +1,4 @@
-package com.leyifu.phoneplayer.bean.CategoryBead;
+package com.leyifu.phoneplayer.bean.categoryBean;
 
 import java.util.List;
 

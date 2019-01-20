@@ -2,6 +2,7 @@ package com.leyifu.phoneplayer.interf;
 
 
 import com.leyifu.phoneplayer.bean.RecommendBean;
+import com.leyifu.phoneplayer.bean.appDetail.AppDetailBean;
 import com.leyifu.phoneplayer.bean.categoryAndGoodBean.CategoryAndGood;
 import com.leyifu.phoneplayer.bean.categoryBean.CategoryBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginDataBean;
@@ -86,6 +87,14 @@ public interface HttpApi {
      */
     @GET("game")
     Observable<CategoryAndGood> getGame( @Query("page") int page);
+
+    /**
+     * app详细
+     * @param id
+     * @return
+     */
+    @GET("app/{id}")
+    Observable<AppDetailBean> getAppDetail(@Path("id")int id);
 
 
 }

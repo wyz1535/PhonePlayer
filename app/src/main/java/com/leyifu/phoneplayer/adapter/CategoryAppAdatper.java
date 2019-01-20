@@ -1,6 +1,8 @@
 package com.leyifu.phoneplayer.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.leyifu.phoneplayer.R;
+import com.leyifu.phoneplayer.act.AppDetailActivity;
+import com.leyifu.phoneplayer.act.MyApplication;
 import com.leyifu.phoneplayer.bean.categoryAndGoodBean.CategoryAndGoodDatasBean;
 import com.leyifu.phoneplayer.constant.Constants;
 
@@ -90,12 +94,25 @@ public class CategoryAppAdatper extends RecyclerView.Adapter<CategoryAppAdatper.
             Glide.with(mContext).load(Constants.BASE_IMG_URL + mDatas.get(position).getIcon()).into(viewHolder.iv_icon);
             viewHolder.tv_title.setText(mDatas.get(position).getDisplayName());
             viewHolder.iv_allow.setImageResource(R.drawable.ic_onload_svg);
+            final int apId = mDatas.get(position).getId();
             if (type == CATEGORY) {
                 viewHolder.tv_type.setVisibility(View.GONE);
             } else if (type == GAME) {
                 viewHolder.tv_type.setVisibility(View.VISIBLE);
                 viewHolder.tv_type.setText(mDatas.get(position).getLevel1CategoryName());
             }
+
+            viewHolder.rv_item_category.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, AppDetailActivity.class);
+                    intent.putExtra(Constants.APP_ID, apId);
+
+                    mContext.startActivity(intent);
+                    ((MyApplication) ((Activity) mContext).getApplication()).setView(v);
+
+                }
+            });
         }
     }
 

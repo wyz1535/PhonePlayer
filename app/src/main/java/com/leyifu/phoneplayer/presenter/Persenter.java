@@ -1,6 +1,7 @@
 package com.leyifu.phoneplayer.presenter;
 
 import com.leyifu.phoneplayer.bean.RecommendBean;
+import com.leyifu.phoneplayer.bean.appDetail.AppDetailBean;
 import com.leyifu.phoneplayer.bean.categoryAndGoodBean.CategoryAndGood;
 import com.leyifu.phoneplayer.bean.categoryBean.CategoryBean;
 import com.leyifu.phoneplayer.bean.loginbean.LoginDataBean;
@@ -8,6 +9,7 @@ import com.leyifu.phoneplayer.bean.loginbean.LoginRequestBean;
 import com.leyifu.phoneplayer.bean.rankingbean.RankingBean;
 import com.leyifu.phoneplayer.bean.recommendhomebean.RecommendHomeBean;
 import com.leyifu.phoneplayer.interf.HttpApi;
+import com.leyifu.phoneplayer.interf.IgetAppDetail;
 import com.leyifu.phoneplayer.interf.IgetCategory;
 import com.leyifu.phoneplayer.interf.IgetCategoryAndGood;
 import com.leyifu.phoneplayer.interf.IgetLogin;
@@ -219,7 +221,7 @@ public class Persenter {
 
                                @Override
                                public void onNext(CategoryBean categoryBean) {
-                                   igetCategory.iGetCategorySuccess(categoryBean,false);
+                                   igetCategory.iGetCategorySuccess(categoryBean, false);
                                }
                            }
                 );
@@ -243,6 +245,7 @@ public class Persenter {
                     public void onStart() {
                         super.onStart();
                         igetCategoryAndGood.igetCateGoodStart();
+                        igetCategoryAndGood.igetCateGoodMore(isLoadMore);
                     }
 
                     @Override
@@ -286,8 +289,38 @@ public class Persenter {
 
                     @Override
                     public void onNext(CategoryAndGood categoryAndGood) {
-                        igetCategoryAndGood.igetCateGoodSuccess(categoryAndGood,isLoadMore);
+                        igetCategoryAndGood.igetCateGoodSuccess(categoryAndGood, isLoadMore);
                     }
                 });
+    }
+
+    public static void pGetAppDetail(final IgetAppDetail igetAppDetail, Class<HttpApi> httpApiClass, int appId) {
+
+        Observable<AppDetailBean> observable = ApiUtils.getRetrofit().create(httpApiClass).getAppDetail(appId);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AppDetailBean>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        igetAppDetail.iGetAppDetailStart();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        igetAppDetail.iGetAppDetailComplate();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        igetAppDetail.iGetAppDetailFailed(e);
+                    }
+
+                    @Override
+                    public void onNext(AppDetailBean appDetailBean) {
+                        igetAppDetail.iGetAppDetailSuccess(appDetailBean);
+                    }
+                });
+
     }
 }

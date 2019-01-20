@@ -31,4 +31,5 @@ public class Constants {
     public static final String USER = "user.out";
 
     public static final String CATEGORY_APP_ID = "categoryAppId";
+    public static final String APP_ID = "appId";
 }

@@ -137,6 +137,7 @@ public class CategoryGoodFragment extends Fragment implements IgetCategoryAndGoo
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+
                                     page++;
                                     Persenter.getCategoryAndGood(CategoryGoodFragment.this, HttpApi.class, categoryId, categoryPosition, page, true);
                                 }
@@ -176,6 +177,7 @@ public class CategoryGoodFragment extends Fragment implements IgetCategoryAndGoo
             if (isLoadMore) {
                 mCategoryAndGood.getData().getDatas().addAll(categoryAndGood.getData().getDatas());
                 categoryAppAdatper.notifyDataSetChanged();
+
             } else {
                 this.mCategoryAndGood = categoryAndGood;
                 categoryAppAdatper = new CategoryAppAdatper(getActivity(), categoryAndGood.getData().getDatas(), categoryAppAdatper.CATEGORY);
@@ -199,8 +201,10 @@ public class CategoryGoodFragment extends Fragment implements IgetCategoryAndGoo
     }
 
     @Override
-    public void igetCateGoodMore() {
-
+    public void igetCateGoodMore(boolean isLoadMore) {
+        if (isLoadMore) {
+            progressBarCategory.setVisibility(View.GONE);
+        }
     }
 
     @Override

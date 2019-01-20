@@ -12,7 +12,7 @@ public interface IgetCategoryAndGood {
 
     void igetCateGoodFailed(Throwable e);
 
-    void igetCateGoodMore();
+    void igetCateGoodMore(boolean isLoadMore);
 
     void igetCateGoodStart();
 

@@ -50,5 +50,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="collText">
+        曾经有一份真挚的爱情摆在我的面前\n\n
+        我没有好好珍惜 直到失去时 才后悔莫及\n\n
+        人世间最痛苦的事莫过于此\n\n
+        如果上天能够再给我一次机会\n\n
+        我会对那个女孩说三个字 我爱你\n\n
+        如果非要在这个爱上加个期限\n\n
+        我希望是 一万年...\n\n
+    </string>
+
 
 </resources>

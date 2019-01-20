@@ -33,12 +33,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     private Unbinder unbinder;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(setLayout());
 
-        handleMaterialStatusBar();
 
         initPermission();
 
@@ -50,6 +50,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
 
         init();
+
+        handleMaterialStatusBar();
 
     }
 
@@ -94,6 +96,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             unbinder.unbind();
         }
     }
+
+
 
 
     String[] permissions = new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_WIFI_STATE};

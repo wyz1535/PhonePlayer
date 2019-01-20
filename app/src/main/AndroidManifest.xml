@@ -30,7 +30,10 @@
         <activity android:name=".act.SplashActivity" />
         <activity android:name=".act.GuideActivity" />
         <activity android:name=".act.LoginActivity" />
-        <activity android:name=".act.CategoryAppActivity"></activity>
+        <activity android:name=".act.CategoryAppActivity" />
+        <activity
+            android:name=".act.AppDetailActivity"
+            android:theme="@style/translucent" />
     </application>
 
 </manifest>

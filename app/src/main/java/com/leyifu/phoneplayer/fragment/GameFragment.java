@@ -95,20 +95,7 @@ public class GameFragment extends Fragment implements IgetCategoryAndGood {
 
     }
 
-    private void setProgressAndError(boolean progressBar, boolean error) {
 
-        if (progressBar) {
-            progressBarCategory.setVisibility(View.VISIBLE);
-        } else {
-            progressBarCategory.setVisibility(View.GONE);
-        }
-
-        if (error) {
-            llNetError.setVisibility(View.VISIBLE);
-        } else {
-            llNetError.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     public void onDestroyView() {
@@ -143,8 +130,10 @@ public class GameFragment extends Fragment implements IgetCategoryAndGood {
     }
 
     @Override
-    public void igetCateGoodMore() {
-
+    public void igetCateGoodMore(boolean isLoadMore) {
+        if (isLoadMore) {
+            progressBarCategory.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -155,5 +144,20 @@ public class GameFragment extends Fragment implements IgetCategoryAndGood {
     @Override
     public void igetCateGoodComplete() {
         setProgressAndError(false,false);
+    }
+
+    private void setProgressAndError(boolean progressBar, boolean error) {
+
+        if (progressBar) {
+            progressBarCategory.setVisibility(View.VISIBLE);
+        } else {
+            progressBarCategory.setVisibility(View.GONE);
+        }
+
+        if (error) {
+            llNetError.setVisibility(View.VISIBLE);
+        } else {
+            llNetError.setVisibility(View.GONE);
+        }
     }
 }

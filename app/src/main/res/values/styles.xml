@@ -34,7 +34,32 @@
 
     <style name="collTextStyle">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
+
+
+    <style name="app_detail_teitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    android:textSize="14sp"
+    android:textColor="@color/blue_grey_300"
+    android:layout_marginLeft="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    <style name="app_detail_teitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
 
 </resources>

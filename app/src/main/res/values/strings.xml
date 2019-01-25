@@ -59,6 +59,11 @@
         如果非要在这个爱上加个期限\n\n
         我希望是 一万年...\n\n
     </string>
+    
+    <string name="app_describe">应用描述</string>
+    <string name="app_detail">应用详情</string>
+    <string name="app_same_dev">应用开发者</string>
+    <string name="app_same_app">相关应用</string>
 
 
 </resources>

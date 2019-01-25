@@ -70,4 +70,7 @@ dependencies {
 
     //圆形图片
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    //可展开的textview
+    implementation 'com.ms-square:expandableTextView:0.1.4'
 }

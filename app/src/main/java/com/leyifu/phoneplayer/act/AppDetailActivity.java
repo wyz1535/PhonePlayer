@@ -29,9 +29,6 @@ import com.leyifu.phoneplayer.interf.IgetAppDetail;
 import com.leyifu.phoneplayer.presenter.Persenter;
 import com.leyifu.phoneplayer.util.DensityUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -50,10 +47,6 @@ public class AppDetailActivity extends BaseActivity implements IgetAppDetail {
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.img_icon)
     ImageView imgIcon;
-//    @BindView(R.id.rv_screen_shot)
-//    RecyclerView rvScreenShot;
-
-    List<String> imgUrl = new ArrayList<>();
 
     @Override
     public int setLayout() {

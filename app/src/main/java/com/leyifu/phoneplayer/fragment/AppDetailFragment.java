@@ -3,20 +3,27 @@ package com.leyifu.phoneplayer.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.leyifu.phoneplayer.R;
+import com.leyifu.phoneplayer.adapter.SameDevAdapter;
 import com.leyifu.phoneplayer.bean.appDetail.AppDetailDataBean;
 import com.leyifu.phoneplayer.constant.Constants;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,6 +44,20 @@ public class AppDetailFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.ll_screen_shot)
     LinearLayout llScreenShot;
+    @BindView(R.id.ex_tv)
+    ExpandableTextView exTv;
+    @BindView(R.id.tv_updata)
+    TextView tvUpdata;
+    @BindView(R.id.tv_version)
+    TextView tvVersion;
+    @BindView(R.id.tv_size)
+    TextView tvSize;
+    @BindView(R.id.tv_dev)
+    TextView tvDev;
+    @BindView(R.id.rv_same_dev)
+    RecyclerView rvSameDev;
+    @BindView(R.id.rv_same_app)
+    RecyclerView rvSameApp;
 
 
     public AppDetailFragment() {
@@ -73,6 +94,31 @@ public class AppDetailFragment extends Fragment {
 
         initScreenShot();
 
+        initIntroduction();
+
+        initDetail();
+
+        initSameDev();
+
+    }
+
+    private void initSameDev() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        rvSameDev.setLayoutManager(linearLayoutManager);
+
+        rvSameDev.setAdapter(new SameDevAdapter(mAppDetailDataBean.getSameDevAppInfoList()));
+    }
+
+    private void initIntroduction() {
+        exTv.setText(mAppDetailDataBean.getIntroduction());
+    }
+
+    private void initDetail() {
+        String dataFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date(mAppDetailDataBean.getUpdateTime()));
+        tvUpdata.setText("更新时间:" + dataFormat);
+        tvVersion.setText("最新版本:" + mAppDetailDataBean.getVersionName());
+        tvSize.setText("应用大小:" +( mAppDetailDataBean.getApkSize()/1024/1024 )+ "MB");
+        tvDev.setText("开发者:" + mAppDetailDataBean.getPublisherName());
     }
 
     private void initScreenShot() {
